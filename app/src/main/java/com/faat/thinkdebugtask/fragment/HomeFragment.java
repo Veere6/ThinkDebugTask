@@ -38,10 +38,12 @@ public class HomeFragment extends Fragment {
     List<ContactModel> list;
     String api = "https://api.androidhive.info/contacts/";
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        setRetainInstance(true);
         initView(view);
         return view;
     }

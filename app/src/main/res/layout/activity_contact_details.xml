@@ -39,6 +39,8 @@
             android:id="@+id/id"
             android:textColor="@color/black"
             android:textSize="16dp"
+            android:text="155"
+            android:paddingHorizontal="10dp"
             android:textStyle="bold"
             android:layout_height="wrap_content"/>
 

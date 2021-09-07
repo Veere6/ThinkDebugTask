@@ -2,6 +2,7 @@ package com.faat.thinkdebugtask;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
@@ -25,13 +26,21 @@ public class MainActivity extends AppCompatActivity {
     public static AnimatedBottomBar bottomBar;
     public static TextView tittle;
     ImageView back;
+    Fragment homefragment= new HomeFragment();
+    Fragment categoryfragment= new CategoryFragment();
+    Fragment cartfragment= new CartFragment();
+    Fragment profilefragment= new ProfileFragment();
+    FragmentManager fm = getSupportFragmentManager();
+    Fragment active = homefragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Fragment fragment = new HomeFragment();
-        loadFragment(fragment);
+        fm.beginTransaction().add(R.id.fragment_container, profilefragment, "4").hide(profilefragment).commit();
+        fm.beginTransaction().add(R.id.fragment_container, cartfragment, "3").hide(cartfragment).commit();
+        fm.beginTransaction().add(R.id.fragment_container, categoryfragment, "2").hide(categoryfragment).commit();
+        fm.beginTransaction().add(R.id.fragment_container,homefragment, "1").commit();
         initView();
     }
 
@@ -51,22 +60,22 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(int i, AnimatedBottomBar.Tab tab, int i1, AnimatedBottomBar.Tab tab1) {
                 if (tab1.getId() == R.id.tabhome) {
                     tittle.setText("Home");
-                    Fragment fragment = new HomeFragment();
-                    loadFragment(fragment);
+                    fm.beginTransaction().hide(active).show(homefragment).commit();
+                    active = homefragment;
                 } else if (tab1.getId() == R.id.tabcategory) {
                     tittle.setText("Category");
-                    Fragment fragment = new CategoryFragment();
-                    loadFragment(fragment);
+                    fm.beginTransaction().hide(active).show(categoryfragment).commit();
+                    active = categoryfragment;
 
                 } else if (tab1.getId() == R.id.tabcart) {
                     tittle.setText("Cart");
-                    Fragment fragment = new CartFragment();
-                    loadFragment(fragment);
+                    fm.beginTransaction().hide(active).show(cartfragment).commit();
+                    active = cartfragment;
 
                 } else if (tab1.getId() == R.id.tabprofile) {
                     tittle.setText("Profile");
-                    Fragment fragment = new ProfileFragment();
-                    loadFragment(fragment);
+                    fm.beginTransaction().hide(active).show(profilefragment).commit();
+                    active = profilefragment;
 
                 }
             }
@@ -76,13 +85,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-
-    public void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack("");
-        transaction.commit();
     }
 }
